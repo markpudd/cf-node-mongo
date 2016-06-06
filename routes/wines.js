@@ -8,7 +8,7 @@ var Server = mongo.Server,
     BSON = mongo.BSONPure;
 
 var vcap_services = JSON.parse(process.env.VCAP_SERVICES || '{}');
-var uri = vcap_services != undefined && vcap_services.mongolab != undefined ? vcap_services.mongolab[0].credentials.uri : 'mongodb://localhost:27017/cf-workshop-node';
+var uri = vcap_services != undefined && vcap_services.mongo != undefined ? vcap_services.mongo[0].credentials.uri : 'mongodb://localhost:27017/cf-workshop-node';
 
 var uriObject = mongodbUri.parse(uri);
 
@@ -30,7 +30,7 @@ db = new Db(database, server, {safe: true});
 console.log(".. db: "+db);
 
 db.open(function(err, db) {
-   
+
    if(username && password){
         db.authenticate(username, password, function (err, val) {
                         console.log('### finished authenticating');
@@ -45,12 +45,12 @@ db.open(function(err, db) {
                         }
                  });
     }
-    
+
     if(!err) {
         console.log("Connected to 'winedb' database");
-       
+
         db.collection('wines', {strict:true}, function(errc, collection) {
-                        
+
                         console.log("collection: "+errc);
                         console.log("collection: "+collection);
 
@@ -61,12 +61,12 @@ db.open(function(err, db) {
                             console.log("Collection doesn't exist :(");
                             db.createCollection("wines", function(err, collection){
                                 console.log("collection created...");
-                               
-                            });        
+
+                            });
                         }
                     });
 
-   
+
     }
 });
 
@@ -138,16 +138,16 @@ exports.deleteWine = function(req, res) {
 }
 
 exports.instance = function ( req, res ){
-  	
+
     console.log("req: "+JSON.stringify(req.body));
 
 	 var vcapApplication = JSON.parse(process.env.VCAP_APPLICATION || '{}');
 	 var vcapServices = process.env.VCAP_SERVICES;
-	 
+
 	 console.log("vcapApplication: "+vcapApplication);
 	 console.log("vcapServices: "+vcapServices);
 
-     
+
     var settings = new Array();
 
     settings.push(JSON.parse(process.env.VCAP_APPLICATION || '{}'));
@@ -156,15 +156,15 @@ exports.instance = function ( req, res ){
      console.log("target: "+settings);
 
      res.send( settings);
-  	 
+
 };
 
 exports.generate = function(req, res) {
-    
+
     console.log("generating data..: ");
 
 
-    populateDB(); 
+    populateDB();
 
     db.collection('wines', function(err, collection) {
         collection.find().toArray(function(err, items) {
@@ -174,10 +174,10 @@ exports.generate = function(req, res) {
 };
 
 exports.kill = function(req, res) {
-    
+
     console.log("killing..: ");
     process.exit(-1);
-   
+
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -186,7 +186,7 @@ exports.kill = function(req, res) {
 var populateDB = function() {
 
     var wines = [
-    {                                                                                     
+    {
         description: "Though subtle in its complexities, this wine is sure to please a wide range of enthusiasts. Notes of pomegranate will delight as the nutty finish completes the picture of a fine sipping experience.",
         picture: "domaine_serene.jpg"
     },
