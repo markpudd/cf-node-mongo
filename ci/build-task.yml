@@ -10,4 +10,4 @@ inputs:
 - name: node-cellar
 
 run:
-  path: ci/test.sh
+  path: node-cellar/ci/test.sh
