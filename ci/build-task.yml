@@ -10,4 +10,4 @@ inputs:
 - name: node-cellar
 
 run:
-  path: cf-node-mongo/ci/test.sh
+  path: ci/test.sh
