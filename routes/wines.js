@@ -8,7 +8,7 @@ var Server = mongo.Server,
     BSON = mongo.BSONPure;
 
 var vcap_services = JSON.parse(process.env.VCAP_SERVICES || '{}');
-var uri = vcap_services != undefined && vcap_services.mongo != undefined ? vcap_services.mongo[0].credentials.uri : 'mongodb://localhost:27017/cf-workshop-node';
+var uri = vcap_services != undefined && vcap_services.user-provided[0].credentials.mongo != undefined ? vcap_services.user-provided[0].credentials.mongo[0].credentials.uri : 'mongodb://localhost:27017/cf-workshop-node';
 
 var uriObject = mongodbUri.parse(uri);
 
